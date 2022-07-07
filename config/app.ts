@@ -36,4 +36,8 @@ export const profiler: ProfilerConfig = {
 	whitelist: [],
 }
 
+export const providers = [
+	'@adonisjs/validator/providers/ValidatorProvider',
+]
+
 export const validator: ValidatorConfig = {}
