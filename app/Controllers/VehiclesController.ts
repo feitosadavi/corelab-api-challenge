@@ -1,8 +1,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { IVehicle } from 'App/Types/Vehicle'
+import StorePostValidator from 'App/Validators/StorePostValidator'
 
 export default class VehiclesController {
-	public async index (ctx: HttpContextContract) {
+	public async index (_ctx: HttpContextContract) {
 		const vehicles: IVehicle[] = [
 			{
 				id: 1,
@@ -18,5 +19,9 @@ export default class VehiclesController {
 		]
 
 		return vehicles
+	}
+	public async store ({ request }: HttpContextContract) {
+		await request.validate(StorePostValidator)
+		return { ok: true }
 	}
 }
