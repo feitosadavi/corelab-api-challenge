@@ -1,3 +1,4 @@
+import Database from '@ioc:Adonis/Lucid/Database'
 import { test } from '@japa/runner'
 import Vehicle from 'App/Models/Vehicle'
 
@@ -17,34 +18,24 @@ const makeError = (rule: string, field: string, message: string, args?: any) => 
 	args,
 })
 
-const deleteCreatedVehicle = async (id: number, response: any) => {
-	const vehicle = await Vehicle.findBy('id', id)
-	await vehicle?.delete()
-	const isVehicleDeleted = await Vehicle.findBy('id', id)
-	response.assert.isFalse(!!isVehicleDeleted)
-}
+test.group('vehicles [GET]', (group) => {
+	group.each.setup(async () => {
+		await Database.rawQuery('TRUNCATE vehicles')
+	})
 
-test.group('vehicles [GET]', (_group) => {
-	test('display vehicles', async ({ client }) => {
+	test('should display all vehicles', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
 		const response = await client.get('/vehicles')
-
+		console.log(response.body())
 		response.assertStatus(200)
-		response.assertBodyContains([
-			{
-				id: 1,
-				name: 'First Vehicle',
-				description: 'This is a description of first vehicle',
-				plate: 'DDT-0012',
-				isFavorite: false,
-				year: 2018,
-				color: '#ff00ff',
-				price: 22000,
-			},
-		])
+		response.assert?.isTrue(!!response.body()[0].id)
 	})
 })
 
-test.group('vehicles/store [POST]', (_group) => {
+test.group('vehicles/store [POST]', (group) => {
+	group.each.setup(async () => {
+		await Database.rawQuery('TRUNCATE vehicles')
+	})
 	test('should return an error if some field was not sent', async ({ client }) => {
 		const { year, ...params } = mockVehicle() // took out year param
 		const response = await client.post('/vehicles/store').form(params)
@@ -67,7 +58,6 @@ test.group('vehicles/store [POST]', (_group) => {
 		response.assertStatus(200)
 		const id = response.body().id
 		response.assert?.isTrue(!!id)
-		await deleteCreatedVehicle(id, response)
 	})
 })
 
