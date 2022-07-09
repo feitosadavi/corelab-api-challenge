@@ -12,7 +12,7 @@ export default class extends BaseSchema {
 			table.boolean('isFavorite')
 			table.string('color')
 			table.string('plate')
-			table.string('year')
+			table.integer('year')
 			table.timestamp('created_at', { useTz: true })
 			table.timestamp('updated_at', { useTz: true })
 		})
