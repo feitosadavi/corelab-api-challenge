@@ -25,6 +25,7 @@ ENV HOST=0.0.0.0
 COPY ./package*.json ./
 RUN npm ci --production
 COPY --from=build /app/build .
+RUN ls
 EXPOSE $PORT
 
-CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]
