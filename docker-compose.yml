@@ -6,9 +6,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: corelabdb
     ports:
       - 5432:5432
-
   adonis_app:
     container_name: adonis_app
     restart: always
