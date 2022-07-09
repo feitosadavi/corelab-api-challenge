@@ -1,24 +1,10 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Vehicle from 'App/Models/Vehicle'
-import { IVehicle } from 'App/Types/Vehicle'
 import AddVehicleValidator from 'App/Validators/AddVehicleValidator'
 
 export default class VehiclesController {
 	public async index (_ctx: HttpContextContract) {
-		const vehicles: IVehicle[] = [
-			{
-				id: 1,
-				name: 'First Vehicle',
-				description: 'This is a description of first vehicle',
-				plate: 'DDT-0012',
-				isFavorite: false,
-				year: 2018,
-				color: '#ff00ff',
-				price: 22000,
-				createdAt: new Date(),
-			},
-		]
-
+		const vehicles = await Vehicle.all()
 		return vehicles
 	}
 	public async store ({ request }: HttpContextContract) {
