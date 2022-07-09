@@ -44,10 +44,10 @@ test.group('vehicles [GET]', (_group) => {
 	})
 })
 
-test.group('store-vehicle [POST]', (_group) => {
+test.group('add-vehicle [POST]', (_group) => {
 	test('should return an error if some field was not sent', async ({ client }) => {
 		const { year, ...params } = mockVehicle() // took out year param
-		const response = await client.post('/store-vehicle').form(params)
+		const response = await client.post('/add-vehicle').form(params)
 		response.assertStatus(422)
 		const ERROR_MSG = 'year é necessário para fazer o post'
 		response.assertBodyContains({
@@ -55,7 +55,7 @@ test.group('store-vehicle [POST]', (_group) => {
 		})
 	})
 	test('should return an error if year field is invalid', async ({ client }) => {
-		const response = await client.post('/store-vehicle').form({ ...mockVehicle(), year: 1800 })
+		const response = await client.post('/add-vehicle').form({ ...mockVehicle(), year: 1800 })
 		response.assertStatus(422)
 		const ERROR_MSG = 'O campo year deve estar entre 1900 e 2022'
 		response.assertBodyContains({
@@ -63,7 +63,7 @@ test.group('store-vehicle [POST]', (_group) => {
 		})
 	})
 	test('should add a vehicle on success', async ({ client }) => {
-		const response = await client.post('/store-vehicle').form({ ...mockVehicle() })
+		const response = await client.post('/add-vehicle').form({ ...mockVehicle() })
 		response.assertStatus(200)
 		const id = response.body().id
 		response.assert?.isTrue(!!id)
