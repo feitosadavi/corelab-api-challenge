@@ -9,7 +9,7 @@
     "lint": "eslint . --ext=.ts",
     "format": "eslint --fix .",
     "test": "node ace test",
-    "test:watch": "npm test --watch"
+		"test:watch": "node ace test --watch"
   },
   "eslintConfig": {
     "extends": [
