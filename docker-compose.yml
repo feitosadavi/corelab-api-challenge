@@ -3,19 +3,15 @@ version: '3'
 services:
   postgres:
     image: postgres:13
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DATABASE: corelabdb
     ports:
       - 5432:5432
   adonis_app:
     container_name: adonis_app
     restart: always
-    depends_on:
-      - postgres
     build:
       context: .
+    depends_on:
+      - postgres
     ports:
       - ${PORT}:${PORT}
       - 9229:9229 # for debug
