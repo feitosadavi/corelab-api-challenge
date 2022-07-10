@@ -100,3 +100,17 @@ test.group('vehicles/:id/update [PUT]', (group) => {
 	})
 })
 
+test.group('vehicles/:id/delete [DELETE]', (group) => {
+	group.each.setup(async () => {
+		await Database.rawQuery('TRUNCATE vehicles')
+	})
+
+	test('should delete vehicle on success', async ({ client }) => {
+		const mockedVehicle = mockVehicle()
+		const vehicle = await Vehicle.create(mockedVehicle)
+		const response = await client.delete(`/vehicles/${vehicle.id}/delete`)
+		response.assertStatus(204)
+		const deletedVehicle = await Vehicle.findBy('id', vehicle.id)
+		response.assert?.isNull(deletedVehicle)
+	})
+})
