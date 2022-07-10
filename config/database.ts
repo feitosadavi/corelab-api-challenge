@@ -1,10 +1,3 @@
-/**
- * Config source: https://git.io/JesV9
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
-
 import Env from '@ioc:Adonis/Core/Env'
 import { DatabaseConfig } from '@ioc:Adonis/Lucid/Database'
 
@@ -23,14 +16,9 @@ const postgresConfigWithSSL: any = {
 	},
 }
 
-console.log({ VARIABLE: Env.get('DB_SSL') })
-
-console.log(Env.get('DB_SSL') === 'true')
 const connections = Env.get('DB_SSL') === 'true'
 	? postgresConfigWithSSL
 	: postgresConfig
-
-console.log({ connections })
 
 const databaseConfig: DatabaseConfig = {
 	connection: Env.get('DB_CONNECTION'),
