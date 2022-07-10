@@ -9,7 +9,7 @@ export default class extends BaseSchema {
 			table.string('name')
 			table.string('description')
 			table.float('price')
-			table.boolean('isFavorite')
+			table.boolean('is_favorite').notNullable().defaultTo(false)
 			table.string('color')
 			table.string('plate')
 			table.integer('year')

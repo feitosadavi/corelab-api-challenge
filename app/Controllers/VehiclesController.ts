@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Vehicle from 'App/Models/Vehicle'
 import AddVehicleValidator from 'App/Validators/AddVehicleValidator'
 import UpdateVehicleValidator from 'App/Validators/UpdateVehicleValidator'
+import AddFavoriteValidator from 'App/Validators/AddFavoriteValidator'
 
 export default class VehiclesController {
 	public async index (_ctx: HttpContextContract) {
@@ -38,6 +39,13 @@ export default class VehiclesController {
 	}
 	public async destroy ({ params, response }: HttpContextContract) {
 		await Vehicle.query().where('id', params.id).delete()
+		response.status(204)
+	}
+	public async addFavorite ({ request, response, params }: HttpContextContract) {
+		const { isFavorite } = await request.validate(AddFavoriteValidator)
+		const vehicle = await Vehicle.findOrFail(params.id)
+		vehicle.isFavorite = isFavorite
+		await vehicle.save()
 		response.status(204)
 	}
 }

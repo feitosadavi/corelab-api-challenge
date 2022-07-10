@@ -9,8 +9,11 @@ Route.get('/vehicles/:id', 'VehiclesController.show')
 // Store new vehicles
 Route.post('/vehicles/store', 'VehiclesController.store')
 
-// Store new vehicles
+// Update vehicles
 Route.put('/vehicles/:id/update', 'VehiclesController.update')
 
 // Delete vehicle
 Route.delete('/vehicles/:id/delete', 'VehiclesController.destroy')
+
+// Favorite or unfavorite vehicles
+Route.put('/vehicles/:id/add-favorite', 'VehiclesController.addFavorite')
