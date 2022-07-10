@@ -8,3 +8,6 @@ Route.get('/vehicles/:id', 'VehiclesController.show')
 
 // Store new vehicles
 Route.post('/vehicles/store', 'VehiclesController.store')
+
+// Store new vehicles
+Route.put('/vehicles/:id/update', 'VehiclesController.update')
