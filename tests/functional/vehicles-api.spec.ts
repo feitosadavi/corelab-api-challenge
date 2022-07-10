@@ -73,3 +73,19 @@ test.group('vehicles/store [POST]', (group) => {
 	})
 })
 
+test.group('vehicles/:id/update [PUT]', (group) => {
+	group.each.setup(async () => {
+		await Database.rawQuery('TRUNCATE vehicles')
+	})
+
+	test('should update vehicle on success', async ({ client }) => {
+		const mockedVehicle = mockVehicle()
+		const vehicle = await Vehicle.create(mockedVehicle)
+		const response = await client.put(`/vehicles/${vehicle.id}/update`).form({ name: 'BMW' })
+		response.assertStatus(200)
+		const updatedVehicle = await Vehicle.findBy('id', vehicle.id)
+		response.assertBody({ id: vehicle.id })
+		response.assert?.isTrue(updatedVehicle?.name === 'BMW')
+	})
+})
+
