@@ -36,4 +36,8 @@ export default class VehiclesController {
 		const result = await vehicle.save()
 		return { id: result.id }
 	}
+	public async destroy ({ params, response }: HttpContextContract) {
+		await Vehicle.query().where('id', params.id).delete()
+		response.status(204)
+	}
 }

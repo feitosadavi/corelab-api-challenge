@@ -11,3 +11,6 @@ Route.post('/vehicles/store', 'VehiclesController.store')
 
 // Store new vehicles
 Route.put('/vehicles/:id/update', 'VehiclesController.update')
+
+// Delete vehicle
+Route.delete('/vehicles/:id/delete', 'VehiclesController.destroy')
