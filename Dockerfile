@@ -25,7 +25,6 @@ ENV HOST=0.0.0.0
 COPY ./package*.json ./
 RUN npm ci --production
 COPY --from=build /app/build .
-RUN npm run migration
 EXPOSE $PORT
 
-CMD [ "npm", "migration", "start" ]
+CMD [ "npm", "start" ]
