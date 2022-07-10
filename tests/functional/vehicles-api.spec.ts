@@ -114,3 +114,29 @@ test.group('vehicles/:id/delete [DELETE]', (group) => {
 		response.assert?.isNull(deletedVehicle)
 	})
 })
+
+test.group('vehicles/:id/add-favorite [PUT]', (group) => {
+	group.each.setup(async () => {
+		await Database.rawQuery('TRUNCATE vehicles')
+	})
+
+	// test('should return an error if isFavorite field wasnt sent', async ({ client }) => {
+	// 	const mockedVehicle = mockVehicle()
+	// 	const vehicle = await Vehicle.create(mockedVehicle)
+	// 	const response = await client.put(`/vehicles/${vehicle.id}/add-favorite`)
+	// 	response.assertStatus(422)
+	// 	const ERROR_MSG = 'O campo year deve estar entre 1900 e 2022'
+	// 	response.assertBodyContains({
+	// 		errors: [makeError('required', 'isFavorite', ERROR_MSG)],
+	// 	})
+	// })
+
+	test('should update favorite value success', async ({ client }) => {
+		const mockedVehicle = mockVehicle()
+		const vehicle = await Vehicle.create({ ...mockedVehicle })
+		const response = await client.put(`/vehicles/${vehicle.id}/add-favorite`).form({ isFavorite: true })
+		response.assertStatus(204)
+		const updatedVehicle = await Vehicle.findBy('id', vehicle.id)
+		response.assert?.isTrue(updatedVehicle?.isFavorite === true)
+	})
+})
