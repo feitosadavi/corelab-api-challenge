@@ -78,6 +78,17 @@ test.group('vehicles/:id/update [PUT]', (group) => {
 		await Database.rawQuery('TRUNCATE vehicles')
 	})
 
+	test('should return an error if year field is invalid', async ({ client }) => {
+		const mockedVehicle = mockVehicle()
+		const vehicle = await Vehicle.create(mockedVehicle)
+		const response = await client.put(`/vehicles/${vehicle.id}/update`).form({ year: 1500 })
+		response.assertStatus(422)
+		const ERROR_MSG = 'O campo year deve estar entre 1900 e 2022'
+		response.assertBodyContains({
+			errors: [makeError('range', 'year', ERROR_MSG, { start: 1900, stop: new Date().getFullYear() })],
+		})
+	})
+
 	test('should update vehicle on success', async ({ client }) => {
 		const mockedVehicle = mockVehicle()
 		const vehicle = await Vehicle.create(mockedVehicle)
