@@ -8,8 +8,8 @@
 		"start": "node server.js",
     "lint": "eslint . --ext=.ts",
     "format": "eslint --fix .",
-    "test": "node ace test",
-		"test:watch": "node ace test --watch",
+		"test": "docker-compose run adonis_app node ace test",
+		"test:watch": "npm run test -- --watch",
 		"migration": "node ace migration:run"
   },
   "eslintConfig": {
