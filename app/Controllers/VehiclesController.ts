@@ -7,6 +7,14 @@ export default class VehiclesController {
 		const vehicles = await Vehicle.all()
 		return vehicles
 	}
+	public async show ({ params }: HttpContextContract) {
+		const vehicles = await Vehicle.findBy('id', params.id)
+		if (vehicles) {
+			return vehicles
+		} else {
+			return 'Nenhum veículo encontrado'
+		}
+	}
 	public async store ({ request }: HttpContextContract) {
 		const payload = await request.validate(AddVehicleValidator)
 		const vehicle = new Vehicle()
