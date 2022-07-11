@@ -1,12 +1,14 @@
+/* eslint-disable curly */
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Vehicle from 'App/Models/Vehicle'
 import AddVehicleValidator from 'App/Validators/AddVehicleValidator'
 import UpdateVehicleValidator from 'App/Validators/UpdateVehicleValidator'
 import AddFavoriteValidator from 'App/Validators/AddFavoriteValidator'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 type Price = {
-	min: number,
-	max: number
+	min: string,
+	max: string
 }
 type Filters = {
 	price: Price
@@ -15,12 +17,14 @@ type Filters = {
 export default class VehiclesController {
 	public async index ({ request }: HttpContextContract) {
 		const filters: Filters = request.qs() as Filters
-		let between: [any, any] = [0, 999999999999999]
+		let query = 'SELECT * FROM vehicles '
 		if (filters) {
+			query += 'WHERE '
 			const { price } = filters
-			between = (filters.price ? [price.min, price.max].map(e => Number(e)) : between) as [any, any]
+			if (price) query += `price BETWEEN ${price.min} AND ${price.max} `
 		}
-		const vehicles = await Vehicle.query().whereBetween('price', between)
+		console.log(query)
+		const vehicles = (await Database.rawQuery(query)).rows
 		return vehicles ?? []
 	}
 	public async show ({ params }: HttpContextContract) {
