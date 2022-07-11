@@ -4,6 +4,7 @@ import Vehicle from 'App/Models/Vehicle'
 
 const mockVehicle = () => ({
 	name: 'Sandero',
+	brand: 'Fiat',
 	description: 'carro novo barato',
 	plate: 'AAA-1234',
 	year: 2022,

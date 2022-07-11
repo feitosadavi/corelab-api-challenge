@@ -9,6 +9,9 @@ export default class Vehicle extends BaseModel {
 	public name: string
 
 	@column()
+	public brand: string
+
+	@column()
 	public description: string
 
 	@column()

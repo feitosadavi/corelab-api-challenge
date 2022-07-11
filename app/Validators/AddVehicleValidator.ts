@@ -7,6 +7,7 @@ export default class AddVehicleValidator {
 
 	public schema = schema.create({
 		name: schema.string([rules.required()]),
+		brand: schema.string([rules.required()]),
 		description: schema.string([rules.required()]),
 		plate: schema.string([rules.required()]),
 		year: schema.number([
