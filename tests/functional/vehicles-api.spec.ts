@@ -43,11 +43,17 @@ test.group('vehicles/filter/:price[min]?/:price[max]? [GET]', (group) => {
 		await Database.rawQuery('TRUNCATE vehicles')
 	})
 
-	test('should display all vehicles, filtered by price', async ({ client }) => {
+	test('should display all vehicles, filtered by PRICE', async ({ client }) => {
 		await Vehicle.create(mockVehicle())
 		const response = await client.get('/vehicles?price[min]=50&price[max]=10000000')
 		response.assertStatus(200)
-		response.assert?.isTrue(!!response.body()[0].id)
+		response.assert?.isTrue(response.body().length > 0)
+	})
+	test('should display an empty array if none vehicles, filtered by PRICE, was found', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
+		const response = await client.get('/vehicles?price[min]=10&price[max]=20')
+		response.assertStatus(200)
+		response.assert?.isTrue(response.body().length === 0)
 	})
 })
 

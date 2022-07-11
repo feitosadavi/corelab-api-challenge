@@ -21,7 +21,7 @@ export default class VehiclesController {
 			between = (filters.price ? [price.min, price.max].map(e => Number(e)) : between) as [any, any]
 		}
 		const vehicles = await Vehicle.query().whereBetween('price', between)
-		return vehicles
+		return vehicles ?? []
 	}
 	public async show ({ params }: HttpContextContract) {
 		const vehicles = await Vehicle.findBy('id', params.id)
