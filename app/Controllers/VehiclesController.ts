@@ -4,9 +4,23 @@ import AddVehicleValidator from 'App/Validators/AddVehicleValidator'
 import UpdateVehicleValidator from 'App/Validators/UpdateVehicleValidator'
 import AddFavoriteValidator from 'App/Validators/AddFavoriteValidator'
 
+type Price = {
+	min: number,
+	max: number
+}
+type Filters = {
+	price: Price
+} | undefined
+
 export default class VehiclesController {
-	public async index (_ctx: HttpContextContract) {
-		const vehicles = await Vehicle.all()
+	public async index ({ request }: HttpContextContract) {
+		const filters: Filters = request.qs() as Filters
+		let between: [any, any] = [0, 999999999999999]
+		if (filters) {
+			const { price } = filters
+			between = (filters.price ? [price.min, price.max].map(e => Number(e)) : between) as [any, any]
+		}
+		const vehicles = await Vehicle.query().whereBetween('price', between)
 		return vehicles
 	}
 	public async show ({ params }: HttpContextContract) {

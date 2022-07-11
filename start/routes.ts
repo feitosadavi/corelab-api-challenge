@@ -2,6 +2,8 @@ import Route from '@ioc:Adonis/Core/Route'
 
 // List All vehicles
 Route.get('/vehicles', 'VehiclesController.index')
+// List With filters vehicles
+Route.get('/vehicles/filter/:price[min]?/:price[max]?', 'VehiclesController.index')
 
 // List vehicle by id
 Route.get('/vehicles/:id', 'VehiclesController.show')
