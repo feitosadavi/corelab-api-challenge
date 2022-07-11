@@ -10,6 +10,8 @@
     "format": "eslint --fix .",
 		"test": "docker-compose run adonis_app node ace test",
 		"test:watch": "npm run test -- --watch",
+		"docker:migration-run": "docker-compose run adonis_app node ace migration:run",
+		"docker:migration-fresh": "docker-compose run adonis_app node ace migration:fresh",
 		"migration": "node ace migration:run"
   },
   "eslintConfig": {
