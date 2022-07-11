@@ -33,6 +33,12 @@ export default class VehiclesController {
 		const vehicles = (await Database.rawQuery(query)).rows
 		return vehicles ?? []
 	}
+	public async search ({ params: { search } }: HttpContextContract) {
+		let query = `SELECT * FROM vehicles WHERE name  LIKE '%${search}%' `
+		console.log({ query })
+		const vehicles = (await Database.rawQuery(query)).rows
+		return vehicles ?? []
+	}
 	public async show ({ params }: HttpContextContract) {
 		const vehicles = await Vehicle.findBy('id', params.id)
 		if (vehicles) {
