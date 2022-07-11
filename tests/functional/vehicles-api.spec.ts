@@ -112,6 +112,20 @@ test.group('/vehicles/:search/search [GET]', (group) => {
 	})
 })
 
+test.group('vehicles/filterOptions [GET]', (group) => {
+	group.each.setup(async () => {
+		await Database.rawQuery('TRUNCATE vehicles')
+	})
+
+	test('should display vehicle`s filterOptions', async ({ client }) => {
+		await Vehicle.createMany([mockVehicle(), mockVehicle(), { ...mockVehicle(), brand: 'Tesla' }])
+		const response = await client.get('/vehicles/filter-options')
+		response.assertStatus(200)
+		const options = { brands: ['Fiat', 'Tesla'], years: [2022], colors: ['Vermelho'] }
+		response.assert?.deepEqual(response.body(), options)
+	})
+})
+
 test.group('vehicles/:id [GET]', (group) => {
 	group.each.setup(async () => {
 		await Database.rawQuery('TRUNCATE vehicles')
