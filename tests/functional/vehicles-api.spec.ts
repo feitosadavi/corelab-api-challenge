@@ -23,9 +23,29 @@ test.group('vehicles [GET]', (group) => {
 		await Database.rawQuery('TRUNCATE vehicles')
 	})
 
+	test('should display all vehicles, filtered by price', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
+		const response = await client.get('/vehicles?price[min]=50&price[max]=10000000')
+		response.assertStatus(200)
+		response.assert?.isTrue(!!response.body()[0].id)
+	})
+
 	test('should display all vehicles', async ({ client }) => {
 		await Vehicle.create(mockVehicle())
 		const response = await client.get('/vehicles')
+		response.assertStatus(200)
+		response.assert?.isTrue(!!response.body()[0].id)
+	})
+})
+
+test.group('vehicles/filter/:price[min]?/:price[max]? [GET]', (group) => {
+	group.each.setup(async () => {
+		await Database.rawQuery('TRUNCATE vehicles')
+	})
+
+	test('should display all vehicles, filtered by price', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
+		const response = await client.get('/vehicles?price[min]=50&price[max]=10000000')
 		response.assertStatus(200)
 		response.assert?.isTrue(!!response.body()[0].id)
 	})
@@ -120,16 +140,16 @@ test.group('vehicles/:id/add-favorite [PUT]', (group) => {
 		await Database.rawQuery('TRUNCATE vehicles')
 	})
 
-	// test('should return an error if isFavorite field wasnt sent', async ({ client }) => {
-	// 	const mockedVehicle = mockVehicle()
-	// 	const vehicle = await Vehicle.create(mockedVehicle)
-	// 	const response = await client.put(`/vehicles/${vehicle.id}/add-favorite`)
-	// 	response.assertStatus(422)
-	// 	const ERROR_MSG = 'O campo year deve estar entre 1900 e 2022'
-	// 	response.assertBodyContains({
-	// 		errors: [makeError('required', 'isFavorite', ERROR_MSG)],
-	// 	})
-	// })
+	test('should return an error if isFavorite field wasnt sent', async ({ client }) => {
+		const mockedVehicle = mockVehicle()
+		const vehicle = await Vehicle.create(mockedVehicle)
+		const response = await client.put(`/vehicles/${vehicle.id}/add-favorite`)
+		response.assertStatus(422)
+		const ERROR_MSG = 'required validation failed'
+		response.assertBodyContains({
+			errors: [makeError('required', 'isFavorite', ERROR_MSG)],
+		})
+	})
 
 	test('should update favorite value success', async ({ client }) => {
 		const mockedVehicle = mockVehicle()
