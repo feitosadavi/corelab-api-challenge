@@ -122,6 +122,12 @@ test.group('vehicles/store [POST]', (group) => {
 		const id = response.body().id
 		response.assert?.isTrue(!!id)
 	})
+	test('should display all vehicles, filtered by BRAND', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
+		const response = await client.get('/vehicles?brand=\'Fiat\'')
+		response.assertStatus(200)
+		response.assert?.isTrue(response.body().length > 0)
+	})
 })
 
 test.group('vehicles/:id/update [PUT]', (group) => {

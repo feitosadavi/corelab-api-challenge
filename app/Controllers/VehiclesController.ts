@@ -14,6 +14,7 @@ type Filters = {
 	price?: Price
 	year?: string
 	color?: string
+	brand?: string
 } | {}
 
 export default class VehiclesController {
@@ -22,10 +23,12 @@ export default class VehiclesController {
 		let query = 'SELECT * FROM vehicles '
 		if (Object.keys(filters).length > 0) {
 			query += 'WHERE '
-			const { price, year, color }: any = filters
+			const { price, year, color, brand }: any = filters
+
 			if (price) query += `price BETWEEN ${price.min} AND ${price.max} `
 			if (year) query += `${query.includes('AND') ? 'AND' : ''} year = ${year} `
 			if (color) query += `${query.includes('AND') ? 'AND' : ''} color = ${color} `
+			if (brand) query += `${query.includes('AND') ? 'AND' : ''} brand = ${brand} `
 		}
 		const vehicles = (await Database.rawQuery(query)).rows
 		return vehicles ?? []
