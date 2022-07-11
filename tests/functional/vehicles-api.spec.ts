@@ -67,6 +67,12 @@ test.group('vehicles/filter/:price[min]?/:price[max]? [GET]', (group) => {
 		response.assertStatus(200)
 		response.assert?.isTrue(response.body().length === 0)
 	})
+	test('should display all vehicles, filtered by COLOR', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
+		const response = await client.get('/vehicles?color=\'Vermelho\'')
+		response.assertStatus(200)
+		response.assert?.isTrue(response.body().length > 0)
+	})
 })
 
 test.group('vehicles/:id [GET]', (group) => {
