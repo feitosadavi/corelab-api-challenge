@@ -35,7 +35,6 @@ export default class VehiclesController {
 	}
 	public async search ({ params: { search } }: HttpContextContract) {
 		let query = `SELECT * FROM vehicles WHERE CONCAT(name, description, color) LIKE '%${search}%'`
-		console.log({ query })
 		const vehicles = (await Database.rawQuery(query)).rows
 		return vehicles ?? []
 	}

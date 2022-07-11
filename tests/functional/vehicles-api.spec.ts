@@ -104,6 +104,12 @@ test.group('/vehicles/:search/search [GET]', (group) => {
 		response.assertStatus(200)
 		response.assert?.isTrue(response.body().length > 0)
 	})
+	test('should display return an empty array if search returns it', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
+		const response = await client.get('/vehicles/SAFDSAFSD/search')
+		response.assertStatus(200)
+		response.assert?.isTrue(response.body().length === 0)
+	})
 })
 
 test.group('vehicles/:id [GET]', (group) => {
