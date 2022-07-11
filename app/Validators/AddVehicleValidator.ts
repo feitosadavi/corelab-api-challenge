@@ -6,20 +6,18 @@ export default class AddVehicleValidator {
 	constructor(protected ctx: HttpContextContract) { }
 
 	public schema = schema.create({
-		name: schema.string([rules.required()]),
-		brand: schema.string([rules.required()]),
-		description: schema.string([rules.required()]),
-		plate: schema.string([rules.required()]),
+		name: schema.string(),
+		brand: schema.string(),
+		description: schema.string(),
+		plate: schema.string(),
 		year: schema.number([
 			rules.range(1900, new Date().getFullYear()),
-			rules.required(),
 		]),
-		color: schema.string([rules.required()]),
-		price: schema.number([rules.required()]),
+		color: schema.string(),
+		price: schema.number(),
 	})
 
 	public messages: CustomMessages = {
-		'required': '{{ field }} é necessário para fazer o post',
 		'range': 'O campo {{ field }} deve estar entre {{ options.start }} e {{ options.stop }}',
 	}
 }
