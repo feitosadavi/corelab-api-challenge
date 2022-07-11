@@ -4,7 +4,7 @@ export interface IVehicle {
 	brand: string;
 	description: string;
 	plate: string;
-	isFavorite: boolean;
+	is_favorite: boolean;
 	year: number;
 	color: string;
 	price: number;

@@ -6,6 +6,6 @@ export default class AddVehicleValidator {
 	constructor(protected ctx: HttpContextContract) { }
 
 	public schema = schema.create({
-		isFavorite: schema.boolean(),
+		is_favorite: schema.boolean(),
 	})
 }

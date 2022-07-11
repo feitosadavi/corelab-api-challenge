@@ -206,12 +206,12 @@ to watch code changes:
 ### Toggle Vehicle's isFavourite field (PUT /vehicles/:id/add-favorite)
 
 ```http
-    curl -i -H 'Accept: application/json' -d {isFavorite: true} http://localhost:3333/vehicles/1/add-favorite'
+    curl -i -H 'Accept: application/json' -d {is_favorite: true} http://localhost:3333/vehicles/1/add-favorite'
 ```
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `isFavorite` | `boolean` | **Required**. |
+| `is_favorite` | `boolean` | **Required**. |
 
 #### Response
 
@@ -225,7 +225,7 @@ to watch code changes:
 ### Delete vehicle (DELETE /vehicles/:id/delete)
 
 ```http
-    curl -i -H 'Accept: application/json' -d {isFavorite: true} http://localhost:3333/vehicles/1/delete'
+    curl -i -H 'Accept: application/json' -d {is_favorite: true} http://localhost:3333/vehicles/1/delete'
 ```
 
 #### Response

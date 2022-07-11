@@ -177,23 +177,23 @@ test.group('vehicles/:id/add-favorite [PUT]', (group) => {
 		await Database.rawQuery('TRUNCATE vehicles')
 	})
 
-	test('should return an error if isFavorite field wasnt sent', async ({ client }) => {
+	test('should return an error if is_favorite field wasnt sent', async ({ client }) => {
 		const mockedVehicle = mockVehicle()
 		const vehicle = await Vehicle.create(mockedVehicle)
 		const response = await client.put(`/vehicles/${vehicle.id}/add-favorite`)
 		response.assertStatus(422)
 		const ERROR_MSG = 'required validation failed'
 		response.assertBodyContains({
-			errors: [makeError('required', 'isFavorite', ERROR_MSG)],
+			errors: [makeError('required', 'is_favorite', ERROR_MSG)],
 		})
 	})
 
 	test('should update favorite value success', async ({ client }) => {
 		const mockedVehicle = mockVehicle()
 		const vehicle = await Vehicle.create({ ...mockedVehicle })
-		const response = await client.put(`/vehicles/${vehicle.id}/add-favorite`).form({ isFavorite: true })
+		const response = await client.put(`/vehicles/${vehicle.id}/add-favorite`).form({ is_favorite: true })
 		response.assertStatus(204)
 		const updatedVehicle = await Vehicle.findBy('id', vehicle.id)
-		response.assert?.isTrue(updatedVehicle?.isFavorite === true)
+		response.assert?.isTrue(updatedVehicle?.is_favorite === true)
 	})
 })

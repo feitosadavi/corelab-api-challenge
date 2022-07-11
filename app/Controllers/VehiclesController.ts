@@ -66,9 +66,9 @@ export default class VehiclesController {
 		response.status(204)
 	}
 	public async addFavorite ({ request, response, params }: HttpContextContract) {
-		const { isFavorite } = await request.validate(AddFavoriteValidator)
+		const { is_favorite } = await request.validate(AddFavoriteValidator)
 		const vehicle = await Vehicle.findOrFail(params.id)
-		vehicle.isFavorite = isFavorite
+		vehicle.is_favorite = is_favorite
 		await vehicle.save()
 		response.status(204)
 	}

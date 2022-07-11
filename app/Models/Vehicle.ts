@@ -21,7 +21,7 @@ export default class Vehicle extends BaseModel {
 	public color: string
 
 	@column()
-	public isFavorite: boolean
+	public is_favorite: boolean
 
 	@column()
 	public year: number
