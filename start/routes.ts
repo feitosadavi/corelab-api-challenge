@@ -7,6 +7,9 @@ Route.get('/vehicles/filter/:color?/:year?/:price[min]?/:price[max]?/:brand?', '
 // Search for vehicles
 Route.get('/vehicles/:search/search', 'VehiclesController.search')
 
+// Vehicles filter options
+Route.get('/vehicles/filter-options', 'VehiclesController.loadFilterOptions')
+
 // List vehicle by id
 Route.get('/vehicles/:id', 'VehiclesController.show')
 
