@@ -11,19 +11,20 @@ type Price = {
 	max: string
 }
 type Filters = {
-	price: Price
-} | undefined
+	price?: Price
+	year?: string
+} | {}
 
 export default class VehiclesController {
 	public async index ({ request }: HttpContextContract) {
 		const filters: Filters = request.qs() as Filters
 		let query = 'SELECT * FROM vehicles '
-		if (filters) {
+		if (Object.keys(filters).length > 0) {
 			query += 'WHERE '
-			const { price } = filters
+			const { price, year }: any = filters
 			if (price) query += `price BETWEEN ${price.min} AND ${price.max} `
+			if (year) query += `${query.includes('AND') ? 'AND' : ''} year = ${year} `
 		}
-		console.log(query)
 		const vehicles = (await Database.rawQuery(query)).rows
 		return vehicles ?? []
 	}
