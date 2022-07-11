@@ -49,9 +49,21 @@ test.group('vehicles/filter/:price[min]?/:price[max]? [GET]', (group) => {
 		response.assertStatus(200)
 		response.assert?.isTrue(response.body().length > 0)
 	})
-	test('should display an empty array if none vehicles, filtered by PRICE, was found', async ({ client }) => {
+	test('should display an empty array if none vehicles, filtered by PRICE, is found', async ({ client }) => {
 		await Vehicle.create(mockVehicle())
 		const response = await client.get('/vehicles?price[min]=10&price[max]=20')
+		response.assertStatus(200)
+		response.assert?.isTrue(response.body().length === 0)
+	})
+	test('should display all vehicles, filtered by YEAR', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
+		const response = await client.get('/vehicles?year=2022')
+		response.assertStatus(200)
+		response.assert?.isTrue(response.body().length > 0)
+	})
+	test('should display an empty array if none vehicles, filtered by YEAR, is found', async ({ client }) => {
+		await Vehicle.create(mockVehicle())
+		const response = await client.get('/vehicles?year=1900')
 		response.assertStatus(200)
 		response.assert?.isTrue(response.body().length === 0)
 	})
