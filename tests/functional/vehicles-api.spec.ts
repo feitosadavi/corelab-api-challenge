@@ -38,7 +38,7 @@ test.group('vehicles [GET]', (group) => {
 	})
 })
 
-test.group('vehicles/filter/:price[min]?/:price[max]? [GET]', (group) => {
+test.group('/vehicles/filter/:color?/:year?/:price[min]?/:price[max]? [GET]', (group) => {
 	group.each.setup(async () => {
 		await Database.rawQuery('TRUNCATE vehicles')
 	})
